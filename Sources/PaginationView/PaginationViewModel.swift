@@ -8,6 +8,7 @@
 import SwiftUI
 import Combine
 
+@objcMembers
 public class PaginationViewModel: ObservableObject {
     @Published public var currentPage: Int = 1
     public let totalPages: Int
