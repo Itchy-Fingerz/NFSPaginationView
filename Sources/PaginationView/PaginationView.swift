@@ -19,7 +19,7 @@ public struct PaginationView: View {
     private var paginationItems: [PageItem] {
         generatePaginationItems(currentPage: viewModel.currentPage, totalPages: viewModel.totalPages)
     }
-    
+
     public init(viewModel: PaginationViewModel, onPageSelected: @escaping (Int) -> Void) {
         self.viewModel = viewModel
         self.onPageSelected = onPageSelected
@@ -27,38 +27,70 @@ public struct PaginationView: View {
 
     public var body: some View {
         HStack(spacing: 12) {
-            Button(action: previousPage) {
-                Image(systemName: "chevron.left")
+            // Left: Page label
+            Text("Page \(viewModel.currentPage) of \(viewModel.totalPages)")
+                .font(.system(size: 14, weight: .medium))
+                .foregroundColor(.white)
+
+            Spacer()
+
+            // Center: Pagination buttons with arrows and page numbers
+            HStack(spacing: 8) {
+                Button(action: previousPage) {
+                    HStack {
+                        Image(systemName: "chevron.left")
+                        Text("Previous")
+                            .font(.system(size: 14, weight: .medium))
+                    }
                     .foregroundColor(viewModel.currentPage == 1 ? Color.gray : Color.white)
+                }
+                .disabled(viewModel.currentPage == 1)
+
+                ForEach(Array(paginationItems.enumerated()), id: \.offset) { index, item in
+                    switch item {
+                    case .number(let page):
+                        Text("\(page)")
+                            .font(.system(size: 14, weight: .medium))
+                            .frame(width: 32, height: 32)
+                            .background(viewModel.currentPage == page ? Color(white: 0.3) : Color.clear)
+                            .foregroundColor(.white)
+                            .clipShape(Circle())
+                            .onTapGesture {
+                                selectPage(page)
+                            }
+
+                    case .ellipsis:
+                        Text("...")
+                            .font(.system(size: 14))
+                            .foregroundColor(.gray)
+                            .frame(width: 32, height: 32)
+                    }
+                }
+
+                Button(action: nextPage) {
+                    HStack {
+                        Text("Next")
+                            .font(.system(size: 14, weight: .medium))
+                        Image(systemName: "chevron.right")
+                    }
+                    .foregroundColor(viewModel.currentPage == viewModel.totalPages ? Color.gray : Color.white)
+                }
+                .disabled(viewModel.currentPage == viewModel.totalPages)
             }
-            .disabled(viewModel.currentPage == 1)
 
-            ForEach(Array(paginationItems.enumerated()), id: \.offset) { index, item in
-                switch item {
-                case .number(let page):
-                    Text("\(page)")
-                        .font(.system(size: 14, weight: .medium))
-                        .frame(width: 32, height: 32)
-                        .background(viewModel.currentPage == page ? Color(white: 0.3) : Color.clear)
-                        .foregroundColor(.white)
-                        .clipShape(Circle())
-                        .onTapGesture {
-                            selectPage(page)
-                        }
+            Spacer()
 
-                case .ellipsis:
-                    Text("...")
-                        .font(.system(size: 14))
-                        .foregroundColor(.gray)
-                        .frame(width: 32, height: 32)
+            // Right: Page dropdown picker
+            Picker("Page", selection: $viewModel.currentPage) {
+                ForEach(1...viewModel.totalPages, id: \.self) { page in
+                    Text("Page \(page)").tag(page)
                 }
             }
-
-            Button(action: nextPage) {
-                Image(systemName: "chevron.right")
-                    .foregroundColor(viewModel.currentPage == viewModel.totalPages ? Color.gray : Color.white)
-            }
-            .disabled(viewModel.currentPage == viewModel.totalPages)
+            .pickerStyle(MenuPickerStyle())
+            .frame(width: 100) // Adjust the width as needed
+            .foregroundColor(.white)
+            .background(Color.black.opacity(0.5))
+            .cornerRadius(8)
         }
         .padding()
         .background(Color.black)
@@ -116,5 +148,3 @@ public struct PaginationView: View {
         return items
     }
 }
-
-
