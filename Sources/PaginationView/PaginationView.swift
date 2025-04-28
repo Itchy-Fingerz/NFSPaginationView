@@ -12,6 +12,7 @@ public enum PageItem: Equatable {
     case ellipsis
 }
 
+@objcMembers
 public struct PaginationView: View {
     @ObservedObject var viewModel: PaginationViewModel
     var onPageSelected: ((Int) -> Void)? = nil
