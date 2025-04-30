@@ -24,7 +24,7 @@ public struct PaginationConfiguration {
     public init(
         leftArrowImage: Image = Image(systemName: "chevron.left"),
         rightArrowImage: Image = Image(systemName: "chevron.right"),
-        backgroundColor: Color = .white,
+        backgroundColor: Color = .clear,
         selectedColor: Color = .green,
         unselectedColor: Color = .gray,
         textColor: Color = .black
@@ -125,7 +125,7 @@ public struct PaginationView: View {
                 .pickerStyle(MenuPickerStyle())
                 .frame(width: 100)
                 .foregroundColor(config.textColor)
-                .background(config.backgroundColor.opacity(0.6))
+                .background(config.backgroundColor)
                 .cornerRadius(8)
 
             }
