@@ -10,7 +10,7 @@ import Combine
 
 public class PaginationViewModel: ObservableObject {
     @Published public var currentPage: Int = 1
-    public let totalPages: Int
+    public var totalPages: Int
 
     public init(totalPages: Int) {
         self.totalPages = totalPages
