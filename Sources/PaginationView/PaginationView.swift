@@ -29,7 +29,7 @@ public struct PaginationConfiguration {
         selectedColor: Color = .green,
         unselectedColor: Color = .gray,
         textColor: Color = .black,
-        selectedPageTextColor = .white
+        selectedPageTextColor: Color = .white
     ) {
         self.leftArrowImage = leftArrowImage
         self.rightArrowImage = rightArrowImage
