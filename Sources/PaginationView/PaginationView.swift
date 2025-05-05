@@ -20,6 +20,7 @@ public struct PaginationConfiguration {
     public let selectedColor: Color
     public let unselectedColor: Color
     public let textColor: Color
+    public let selectedPageTextColor: Color
 
     public init(
         leftArrowImage: Image = Image(systemName: "chevron.left"),
@@ -28,6 +29,7 @@ public struct PaginationConfiguration {
         selectedColor: Color = .green,
         unselectedColor: Color = .gray,
         textColor: Color = .black
+        selectedPageTextColor = .white
     ) {
         self.leftArrowImage = leftArrowImage
         self.rightArrowImage = rightArrowImage
@@ -35,6 +37,7 @@ public struct PaginationConfiguration {
         self.selectedColor = selectedColor
         self.unselectedColor = unselectedColor
         self.textColor = textColor
+        self.selectedPageTextColor = selectedPageTextColor
     }
 }
 
@@ -89,7 +92,7 @@ public struct PaginationView: View {
                                 .font(.system(size: 14, weight: .medium))
                                 .frame(width: 32, height: 32)
                                 .background(viewModel.currentPage == page ? config.selectedColor : Color.clear)
-                                .foregroundColor(viewModel.currentPage == page ? config.backgroundColor : config.textColor)
+                                .foregroundColor(viewModel.currentPage == page ? config.selectedPageTextColor : config.textColor)
                                 .clipShape(Circle())
                                 .onTapGesture {
                                     selectPage(page)
